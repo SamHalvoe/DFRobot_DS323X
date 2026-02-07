@@ -427,56 +427,78 @@ void DFRobot_DS323X::disable32k(){
     writeReg(DS323X_REG_STATUS, &status, 1);
 }
 
+bool DFRobot_DS323X::writeSRAM(uint8_t regBegin, const uint8_t* data, size_t size){
+    return writeReg(regBegin, data, size);
+}
+
 bool DFRobot_DS323X::writeSRAM(uint8_t reg, uint8_t data){
     return writeReg(reg, &data, 1);
 }
 
+size_t DFRobot_DS323X::readSRAM(uint8_t regBegin, uint8_t* bufferOut, size_t size){
+    return readReg(regBegin, bufferOut, size);
+}
+
 uint8_t DFRobot_DS323X::readSRAM(uint8_t reg){
-    uint8_t buf;
+    uint8_t buf = 0;
     readReg(reg, &buf, 1);
     return buf;
 }
 
+bool DFRobot_DS323X::clearSRAM(uint8_t regBegin, size_t size){
+    return clearReg(regBegin, size);
+}
+
 bool DFRobot_DS323X::clearSRAM(uint8_t reg){
-    uint8_t buf = 0x00;
-    return writeReg(reg, &buf, 1);
+    return clearReg(reg, 1);
 }
 
-bool DFRobot_DS323X::writeReg(uint8_t reg, const void* pBuf, size_t size)
+bool DFRobot_DS323X::writeReg(uint8_t reg, const uint8_t* pBuf, size_t size)
 {
     if(pBuf == NULL){
         DBG("pBuf ERROR!! : null pointer");
+        return false;
     }
-    uint8_t * _pBuf = (uint8_t *)pBuf;
     _pWire->beginTransmission(_deviceAddr);
-    _pWire->write(&reg, 1);
-    
-    for(uint16_t i = 0; i < size; i++){
-        _pWire->write(_pBuf[i]);
-    }
+    _pWire->write(reg);
+    _pWire->write(pBuf, size);
     if( _pWire->endTransmission() != 0){
-        return 0;
+        return false;
     }else{
-        return 1;
+        return true;
     }
 }
 
-uint8_t DFRobot_DS323X::readReg(uint8_t reg, const void* pBuf, size_t size)
+size_t DFRobot_DS323X::readReg(uint8_t reg, uint8_t* pBuf, size_t size)
 {
     if(pBuf == NULL){
         DBG("pBuf ERROR!! : null pointer");
+        return 0;
     }
-    uint8_t * _pBuf = (uint8_t *)pBuf;
     _pWire->beginTransmission(_deviceAddr);
-    _pWire->write(&reg, 1);
-    
+    _pWire->write(reg);
+    size_t byteCount = _pWire->requestFrom(_deviceAddr, size);
+    byteCount = _pWire->readBytes(pBuf, min(byteCount, size));
     if( _pWire->endTransmission() != 0){
         return 0;
     }
+    return byteCount;
+}
 
-    _pWire->requestFrom(_deviceAddr, (uint8_t) size);
-    for(uint16_t i = 0; i < size; i++){
-        _pBuf[i] = _pWire->read();
+bool DFRobot_DS323X::clearReg(uint8_t reg, size_t size)
+{
+    if(pBuf == NULL){
+        DBG("pBuf ERROR!! : null pointer");
+        return false;
     }
-    return size;
+    _pWire->beginTransmission(_deviceAddr);
+    _pWire->write(reg);
+    for (size_t index = 0; index < size; index++){
+    _pWire->write(0x00);
+}
+    if( _pWire->endTransmission() != 0){
+        return false;
+    }else{
+        return true;
+    }
 }
