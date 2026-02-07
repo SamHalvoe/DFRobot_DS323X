@@ -363,7 +363,7 @@ protected:
      * @param size to write data length
      * @return true means write is successful, false means write is failed
      */
-    virtual bool writeReg(uint8_t reg, const void* pBuf, size_t size);
+    virtual bool writeReg(uint8_t reg, const uint8_t* pBuf, size_t size);
 
     /**
    * @fn readReg
@@ -373,7 +373,9 @@ protected:
    * @param size to read data length
    * @return return read length, returning 0 means read failure
      */
-    virtual uint8_t readReg(uint8_t reg, const void* pBuf, size_t size);
+    virtual uint8_t readReg(uint8_t reg, uint8_t* pBuf, size_t size);
+
+    bool DFRobot_DS323X::clearReg(uint8_t reg, size_t size);
 
     /**
      * @fn bcd2bin(uint8_t val)
