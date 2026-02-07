@@ -38,8 +38,6 @@ bool DFRobot_DS323X::begin(void)
 {
     _pWire->beginTransmission(_deviceAddr);
     if(_pWire->endTransmission() == 0){
-        uint8_t buf[7] = {0,0,0,0,0,0,0};
-        writeReg(DS323X_REG_ALM1_SEC, buf, 7);
         return true;
     }
     else{
