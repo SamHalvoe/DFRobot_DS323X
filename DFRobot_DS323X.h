@@ -320,6 +320,8 @@ public:
      */
     void disable32k();
 
+    bool writeSRAM(uint8_t regBegin, const uint8_t* data, size_t size);
+
     /**
      * @fn writeSRAM
      * @brief write the SRAM
@@ -329,6 +331,8 @@ public:
      */
     bool writeSRAM(uint8_t addr, uint8_t data);
 
+    size_t readSRAM(uint8_t regBegin, uint8_t* bufferOut, size_t size);
+
     /**
      * @fn readSRAM
      * @brief readthe SRAM
@@ -336,6 +340,8 @@ public:
      * @return data store in the SRAM
      */
     uint8_t readSRAM(uint8_t addr);
+
+    bool clearSRAM(uint8_t regBegin, size_t size);
 
     /**
      * @fn clearSRAM
@@ -375,7 +381,7 @@ protected:
      */
     virtual uint8_t readReg(uint8_t reg, uint8_t* pBuf, size_t size);
 
-    bool DFRobot_DS323X::clearReg(uint8_t reg, size_t size);
+    bool clearReg(uint8_t reg, size_t size);
 
     /**
      * @fn bcd2bin(uint8_t val)
