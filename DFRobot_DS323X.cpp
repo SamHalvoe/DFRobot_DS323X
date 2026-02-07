@@ -36,8 +36,6 @@ static uint8_t conv2d(const char* p)
 
 bool DFRobot_DS323X::begin(void)
 {
-    _pWire->begin();
-    delay(100);
     _pWire->beginTransmission(_deviceAddr);
     if(_pWire->endTransmission() == 0){
         uint8_t buf[7] = {0,0,0,0,0,0,0};
