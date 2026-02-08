@@ -474,7 +474,7 @@ size_t DFRobot_DS323X::readReg(uint8_t reg, uint8_t* pBuf, size_t size)
     _pWire->beginTransmission(_deviceAddr);
     _pWire->write(reg);
     size_t byteCount = _pWire->requestFrom(_deviceAddr, size);
-    byteCount = _pWire->readBytes(pBuf, min(byteCount, size));
+    byteCount = _pWire->readBytes(pBuf, byteCount);
     if( _pWire->endTransmission() != 0){
         return 0;
     }
