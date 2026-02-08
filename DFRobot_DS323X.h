@@ -351,6 +351,12 @@ public:
      */
     bool clearSRAM(uint8_t addr);
 
+    bool writeData(uint8_t addr, const uint8_t data);
+    bool writeData(uint8_t addr, const uint8_t* data, size_t size);
+    uint8_t readData(uint8_t addr);
+    size_t readData(uint8_t addr, uint8_t* dataOut, size_t size);
+    bool clearData(uint8_t addr);
+    bool clearData(uint8_t addr, size_t size);
 
 protected:
     /**
