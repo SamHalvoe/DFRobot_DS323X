@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * @file  DFRobot_DS323X.h
  * @brief  Define the basic structure of class DFRobot_DS323X
  * @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
@@ -244,7 +244,7 @@ public:
      * @param seconds  (0-59)
      * @return None
      */
-    void setAlarm1(eAlarm1Types_t alarmType,int16_t days,int8_t hours,int8_t minutes,int8_t seconds);
+    void setAlarm1(eAlarm1Types_t alarmType,uint8_t days,uint8_t hours,uint8_t minutes,uint8_t seconds);
 
     /**
      * @fn setAlarm2
@@ -255,7 +255,7 @@ public:
      * @param minutes  (0-59)
      * @return None
      */
-    void setAlarm2(eAlarm2Types_t alarmType,int16_t days,int8_t hours,int8_t minutes);
+    void setAlarm2(eAlarm2Types_t alarmType,uint8_t days,uint8_t hours,uint8_t minutes);
 
     /**
      * @fn enableAlarm1Int
@@ -351,7 +351,7 @@ public:
      */
     virtual bool clearSRAM(uint8_t addr);
 
-    virtual bool writeData(uint8_t addr, const uint8_t data);
+    virtual bool writeData(uint8_t addr, uint8_t data);
     virtual bool writeData(uint8_t addr, const uint8_t* data, size_t size);
     virtual uint8_t readData(uint8_t addr);
     virtual size_t readData(uint8_t addr, uint8_t* dataOut, size_t size);
@@ -385,7 +385,7 @@ protected:
    * @param size to read data length
    * @return return read length, returning 0 means read failure
      */
-    virtual uint8_t readReg(uint8_t reg, uint8_t* pBuf, size_t size);
+    virtual size_t readReg(uint8_t reg, uint8_t* pBuf, size_t size);
 
     bool clearReg(uint8_t reg, size_t size);
 

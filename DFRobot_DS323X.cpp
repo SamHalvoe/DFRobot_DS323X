@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * @file  DFRobot_DS323X.cpp
  * @brief  Define the basic structure of class DFRobot_DS323X
  * @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
@@ -76,7 +76,7 @@ void DFRobot_DS323X::writeSqwPinMode(eSqwPinMode_t mode)
     writeReg(DS323X_REG_CONTROL, &ctrl, 1);
 }
 
-void DFRobot_DS323X::getCompileTime (uint8_t comTime)
+void DFRobot_DS323X::getCompileTime(uint8_t comTime)
 {
     char buff[11];
     uint8_t min = 0;
@@ -260,10 +260,10 @@ bool DFRobot_DS323X::isLostPower(void) {
     return status >> 7;
 }
 
-void DFRobot_DS323X::setAlarm1(eAlarm1Types_t alarmType, int16_t date,int8_t hour,
-                               int8_t minute,int8_t second){
-    int16_t dates = bin2bcd(date);
-    int8_t hours;
+void DFRobot_DS323X::setAlarm1(eAlarm1Types_t alarmType, uint8_t date,uint8_t hour,
+                               uint8_t minute,uint8_t second){
+    uint8_t dates = bin2bcd(date);
+    uint8_t hours;
     if (_mode == 0 ){
         hours = (_mode << 5|bin2bcd(hour));
     }else{
@@ -277,8 +277,8 @@ void DFRobot_DS323X::setAlarm1(eAlarm1Types_t alarmType, int16_t date,int8_t hou
             hours = (0x60|bin2bcd(hour - 12));
         }
     }
-    int8_t minutes = bin2bcd(minute);
-    int8_t seconds = bin2bcd(second);
+    uint8_t minutes = bin2bcd(minute);
+    uint8_t seconds = bin2bcd(second);
     uint8_t days = bin2bcd(dayOfWeek());
     uint8_t buffer;
     if (alarmType >= eUnknownAlarm1)
@@ -316,13 +316,12 @@ void DFRobot_DS323X::setAlarm1(eAlarm1Types_t alarmType, int16_t date,int8_t hou
         writeReg(DS323X_REG_ALM1_DAY, &buffer, 1);
     }
     clearAlarm(); // Clear the alarm state
-    return;
 }
 
-void DFRobot_DS323X::setAlarm2(eAlarm2Types_t alarmType, int16_t date,int8_t hour,
-                               int8_t minute){
-    int16_t dates = bin2bcd(date);
-    int8_t hours;
+void DFRobot_DS323X::setAlarm2(eAlarm2Types_t alarmType, uint8_t date,uint8_t hour,
+                               uint8_t minute){
+    uint8_t dates = bin2bcd(date);
+    uint8_t hours;
     if (_mode == 0 ){
         hours = (_mode << 5|bin2bcd(hour));
     }else{
@@ -336,7 +335,7 @@ void DFRobot_DS323X::setAlarm2(eAlarm2Types_t alarmType, int16_t date,int8_t hou
             hours = (0x60|bin2bcd(hour - 12));
         }
     }
-    int8_t minutes = bin2bcd(minute);
+    uint8_t minutes = bin2bcd(minute);
     uint8_t days = bin2bcd(dayOfWeek());
     uint8_t buffer;
     if (alarmType >= eUnknownAlarm2)
@@ -365,7 +364,6 @@ void DFRobot_DS323X::setAlarm2(eAlarm2Types_t alarmType, int16_t date,int8_t hou
         writeReg(DS323X_REG_ALM2_MIN, &buffer, 1);
     }
     clearAlarm(); // Clear the alarm state
-    return;
 }
 
 void DFRobot_DS323X::enableAlarm1Int(){
@@ -449,41 +447,41 @@ bool DFRobot_DS323X::clearSRAM(uint8_t reg){
     return clearReg(reg, 1);
 }
 
-    bool DFRobot_DS323X::writeData(uint8_t addr, const uint8_t data){
+bool DFRobot_DS323X::writeData(uint8_t addr, uint8_t data){
     if (addr > 0xFF - 0x14) return false;
-    return writeReg(addr + 0x14, data, 1);
+    return writeReg(addr + 0x14, &data, 1);
 }
 
-    bool DFRobot_DS323X::writeData(uint8_t addr, const uint8_t* data, size_t size){
+ bool DFRobot_DS323X::writeData(uint8_t addr, const uint8_t* data, size_t size){
     if (addr + size > 0xFF - 0x14) return false;
     return writeReg(addr + 0x14, data, size);
 }
 
-    uint8_t DFRobot_DS323X::readData(uint8_t addr){
+uint8_t DFRobot_DS323X::readData(uint8_t addr){
     if (addr > 0xFF - 0x14) return 0;
     uint8_t value = 0;
     readReg(addr + 0x14, &value, 1);
     return value;
 }
 
-    size_t DFRobot_DS323X::readData(uint8_t addr, uint8_t* dataOut, size_t size){
+size_t DFRobot_DS323X::readData(uint8_t addr, uint8_t* dataOut, size_t size){
     if (addr + size > 0xFF - 0x14) return 0;
     return readReg(addr + 0x14, dataOut, size);
 }
 
-    bool DFRobot_DS323X::clearData(uint8_t addr){
+bool DFRobot_DS323X::clearData(uint8_t addr){
     if (addr > 0xFF - 0x14) return false;
     return clearReg(addr + 0x14, 1);
 }
 
-    bool DFRobot_DS323X::clearData(uint8_t addr, size_t size){
+bool DFRobot_DS323X::clearData(uint8_t addr, size_t size){
     if (addr + size > 0xFF - 0x14) return false;
     return clearReg(addr + 0x14, size);
 }
 
 bool DFRobot_DS323X::writeReg(uint8_t reg, const uint8_t* pBuf, size_t size)
 {
-    if(pBuf == NULL){
+    if(pBuf == nullptr){
         DBG("pBuf ERROR!! : null pointer");
         return false;
     }
@@ -499,7 +497,7 @@ bool DFRobot_DS323X::writeReg(uint8_t reg, const uint8_t* pBuf, size_t size)
 
 size_t DFRobot_DS323X::readReg(uint8_t reg, uint8_t* pBuf, size_t size)
 {
-    if(pBuf == NULL){
+    if(pBuf == nullptr){
         DBG("pBuf ERROR!! : null pointer");
         return 0;
     }
@@ -515,18 +513,15 @@ size_t DFRobot_DS323X::readReg(uint8_t reg, uint8_t* pBuf, size_t size)
 
 bool DFRobot_DS323X::clearReg(uint8_t reg, size_t size)
 {
-    if(pBuf == NULL){
-        DBG("pBuf ERROR!! : null pointer");
-        return false;
-    }
     _pWire->beginTransmission(_deviceAddr);
     _pWire->write(reg);
-    for (size_t index = 0; index < size; index++){
-    _pWire->write(0x00);
-}
+    for (size_t index = 0; index < size; index++)
+    {
+      _pWire->write(0x00);
+    }
     if( _pWire->endTransmission() != 0){
         return false;
-    }else{
-        return true;
     }
+
+    return true;
 }
