@@ -320,7 +320,7 @@ public:
      */
     void disable32k();
 
-    bool writeSRAM(uint8_t regBegin, const uint8_t* data, size_t size);
+    virtual bool writeSRAM(uint8_t regBegin, const uint8_t* data, size_t size);
 
     /**
      * @fn writeSRAM
@@ -329,9 +329,9 @@ public:
      * @param data uint8_t HEX
      * @return true means write is successful, false means write is failed
      */
-    bool writeSRAM(uint8_t addr, uint8_t data);
+    virtual bool writeSRAM(uint8_t addr, uint8_t data);
 
-    size_t readSRAM(uint8_t regBegin, uint8_t* bufferOut, size_t size);
+    virtual size_t readSRAM(uint8_t regBegin, uint8_t* bufferOut, size_t size);
 
     /**
      * @fn readSRAM
@@ -339,9 +339,9 @@ public:
      * @param addr 0x14~0xFF
      * @return data store in the SRAM
      */
-    uint8_t readSRAM(uint8_t addr);
+    virtual uint8_t readSRAM(uint8_t addr);
 
-    bool clearSRAM(uint8_t regBegin, size_t size);
+    virtual bool clearSRAM(uint8_t regBegin, size_t size);
 
     /**
      * @fn clearSRAM
@@ -349,14 +349,14 @@ public:
      * @param addr 0x14~0xFF
      * @return true means clear is successful, false means clear is failed
      */
-    bool clearSRAM(uint8_t addr);
+    virtual bool clearSRAM(uint8_t addr);
 
-    bool writeData(uint8_t addr, const uint8_t data);
-    bool writeData(uint8_t addr, const uint8_t* data, size_t size);
-    uint8_t readData(uint8_t addr);
-    size_t readData(uint8_t addr, uint8_t* dataOut, size_t size);
-    bool clearData(uint8_t addr);
-    bool clearData(uint8_t addr, size_t size);
+    virtual bool writeData(uint8_t addr, const uint8_t data);
+    virtual bool writeData(uint8_t addr, const uint8_t* data, size_t size);
+    virtual uint8_t readData(uint8_t addr);
+    virtual size_t readData(uint8_t addr, uint8_t* dataOut, size_t size);
+    virtual bool clearData(uint8_t addr);
+    virtual bool clearData(uint8_t addr, size_t size);
 
 protected:
     /**
